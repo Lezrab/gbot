@@ -4,9 +4,9 @@ const bot = new Discord.Client()
 const fetch = require("node-fetch");
 const faker = require('faker/locale/fr');
 
-bot.login('NzI4OTcxNDgxMzg3NzYxNzA0.XwCJmA.iXvfo9k8UMUocCZIlWH42RNDvj8')
+bot.login('NzI4OTcxNDgxMzg3NzYxNzA0.XwCJmA.ENdPYUjhnxCAtm3m_kW9Mo3ZzAQ')
 bot.on('ready', () => {
-
+    console.log("je suis prêt")
 })
 
 bot.on('message', function(message) {
@@ -168,10 +168,19 @@ bot.on('message', function(message) {
             message.channel.send('Il manque un paramètre.')
         } else if (number <= 100 && number > 0) {
             message.channel.bulkDelete(number)
-            .then(out => message.channel.send("J'ai supprimé "+number+" messages!"))
             .catch(error => message.channel.send(`Error: ${error}`))
         } else if (number < 1 || number > 100) {
             message.channel.send('Je peux seulement supprimer entre 1 et 100 messages !')
         }
+    } else if (message.content.includes('vendredi')) {
+        if (!message.member.voice.channel) return message.reply("tat uguleeeeee");
+    // Checking if the bot is in a voice channel.
+    if (message.guild.me.voice.channel) return message.reply("la fermeeeee");
+
+    // Joining the channel and creating a VoiceConnection.
+    message.member.voice.channel.join().then(VoiceConnection => {
+        // Playing the music, and, on finish, disconnecting the bot.
+        VoiceConnection.play("./song/vend.mp3").on("finish", () => VoiceConnection.disconnect());
+    }).catch(e => console.log(e))
     }
 })
